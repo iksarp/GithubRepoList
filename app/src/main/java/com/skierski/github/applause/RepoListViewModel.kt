@@ -18,6 +18,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @VisibleForTesting
 const val GITHUB_USER = "applauseoss"
 
+@VisibleForTesting
+const val REPO_COUNT = 10
+
 data class RepoListState(
     val allReposState: Async<List<Repo>> = Uninitialized,
     val filteredReposState: Async<List<Repo>> = Uninitialized,
@@ -67,7 +70,7 @@ class RepoListViewModel(
     }
 
     private fun fetchRepos() {
-        gitHubRepository.listRepos(user = GITHUB_USER)
+        gitHubRepository.listRepos(user = GITHUB_USER, count = REPO_COUNT)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .execute {

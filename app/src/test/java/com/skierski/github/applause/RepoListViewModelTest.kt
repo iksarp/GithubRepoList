@@ -19,7 +19,7 @@ class RepoListViewModelTest {
     val rxRule = ReactiveXUtils().getTestRule()
 
     val gitHubRepository: GitHubRepository = mock {
-        on { listRepos(GITHUB_USER) } doReturn Single.just(emptyList())
+        on { listRepos(GITHUB_USER, REPO_COUNT) } doReturn Single.just(emptyList())
     }
 
     val tested by lazy { RepoListViewModel(RepoListState(), gitHubRepository) }
@@ -30,7 +30,7 @@ class RepoListViewModelTest {
         tested
 
         // then
-        verify(gitHubRepository).listRepos(GITHUB_USER)
+        verify(gitHubRepository).listRepos(GITHUB_USER, REPO_COUNT)
     }
 
     @Test
@@ -38,7 +38,7 @@ class RepoListViewModelTest {
         // given
         val repo1 = repoWithName("abc")
         val repo2 = repoWithName("dfg")
-        whenever(gitHubRepository.listRepos(GITHUB_USER)).thenReturn(Single.just(listOf(repo1, repo2)))
+        whenever(gitHubRepository.listRepos(GITHUB_USER, REPO_COUNT)).thenReturn(Single.just(listOf(repo1, repo2)))
 
         // when
         tested.onQueryChanged("d")
@@ -54,7 +54,7 @@ class RepoListViewModelTest {
         // given
         val repo1 = repoWithName("abc")
         val repo2 = repoWithName("dfg")
-        whenever(gitHubRepository.listRepos(GITHUB_USER)).thenReturn(Single.just(listOf(repo1, repo2)))
+        whenever(gitHubRepository.listRepos(GITHUB_USER, REPO_COUNT)).thenReturn(Single.just(listOf(repo1, repo2)))
 
         // when
         tested.onQueryChanged("d")
@@ -70,7 +70,7 @@ class RepoListViewModelTest {
         // given
         val repo1 = repoWithName("abc")
         val repo2 = repoWithName("dfg")
-        whenever(gitHubRepository.listRepos(GITHUB_USER)).thenReturn(Single.just(listOf(repo1, repo2)))
+        whenever(gitHubRepository.listRepos(GITHUB_USER, REPO_COUNT)).thenReturn(Single.just(listOf(repo1, repo2)))
 
         // when
         tested.onQueryChanged("D")
@@ -86,7 +86,7 @@ class RepoListViewModelTest {
         // given
         val repo1 = repoWithName("abc")
         val repo2 = repoWithName("dfg")
-        whenever(gitHubRepository.listRepos(GITHUB_USER)).thenReturn(Single.just(listOf(repo1, repo2)))
+        whenever(gitHubRepository.listRepos(GITHUB_USER, REPO_COUNT)).thenReturn(Single.just(listOf(repo1, repo2)))
 
         // when
         tested.onQueryChanged("")
@@ -107,7 +107,7 @@ class RepoListViewModelTest {
         tested.onRetryClicked()
 
         // then
-        verify(gitHubRepository).listRepos(GITHUB_USER)
+        verify(gitHubRepository).listRepos(GITHUB_USER, REPO_COUNT)
     }
 
     fun repoWithName(name: String) = Repo(id = 123, name = name, description = "desc")
